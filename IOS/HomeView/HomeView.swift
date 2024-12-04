@@ -24,6 +24,7 @@ struct HomeView: View {
             }).task({ () async -> Void in
                 do {
                     tasks = try await APIHandler.fetchTasks()
+                    print("Fetched following tasks...")
                     print(tasks)
                 } catch {
                     tasks = []
