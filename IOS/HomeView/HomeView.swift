@@ -17,7 +17,7 @@ struct HomeView: View {
 
     var body: some View {
         VStack {
-            List(test, id: \.self, rowContent: { item in
+            List(test, id: \.self, rowContent: { (item: String) in
                 Text(item)
             })
             HStack {
