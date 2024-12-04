@@ -10,9 +10,11 @@ import SwiftData
 
 struct HomeView: View {
     @State var tasks: [Task]
+    @State var errorstate: any Error
 
     init() {
         tasks = []
+        errorstate = APIHandler.APIHandlerError.OK
     }
 
     var body: some View {
@@ -25,7 +27,9 @@ struct HomeView: View {
                     print(tasks)
                 } catch {
                     tasks = []
-                    print("Encountered the following error fetching tasks! :\(error)")
+                    errorstate = error.self
+                    print("Encountered the following error fetching tasks!")
+                    print("\(error.self) : \(error.localizedDescription)")
                 }
             })
             //HStack {
