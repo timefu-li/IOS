@@ -12,7 +12,7 @@ struct APIHandler {
         case OK
         case urlCheckFail
         case urlRequestFail(reasonPhrase: String)
-        case decodeTasksError(reasonPhrase: String)
+        case decodeModelError(reasonPhrase: String)
         case decodeBackendErrorResponseError
     }
 
@@ -34,7 +34,7 @@ struct APIHandler {
         return requestOutcome.Data
     }
 
-    static public func fetchTasks() async throws(APIHandlerError) -> [Task] {
+    static public func getTasks() async throws(APIHandlerError) -> [Task] {
         let jsondata = try await attemptRequest(url: "http://localhost:8080/tasks", method: "GET")
  
         guard let result: [Task] = try? JSONDecoder().decode([Task].self, from: jsondata) else {
@@ -42,7 +42,21 @@ struct APIHandler {
                 throw APIHandlerError.decodeBackendErrorResponseError
             }
 
-            throw APIHandlerError.decodeTasksError(reasonPhrase: resulterror.reasonPhrase)
+            throw APIHandlerError.decodeModelError(reasonPhrase: resulterror.reasonPhrase)
+        }
+
+        return result
+    }
+
+    static public func getCategories() async throws(APIHandlerError) -> [Category] {
+        let jsondata = try await attemptRequest(url: "http://localhost:8080/categories", method: "GET")
+ 
+        guard let result: [Category] = try? JSONDecoder().decode([Category].self, from: jsondata) else {
+            guard let resulterror: BackendError = try? JSONDecoder().decode(BackendError.self, from: jsondata) else {
+                throw APIHandlerError.decodeBackendErrorResponseError
+            }
+
+            throw APIHandlerError.decodeModelError(reasonPhrase: resulterror.reasonPhrase)
         }
 
         return result

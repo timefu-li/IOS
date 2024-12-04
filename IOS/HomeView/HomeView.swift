@@ -23,7 +23,7 @@ struct HomeView: View {
                 Text(taskelement.name ?? "No name found!")
             }).task({ () async -> Void in
                 do {
-                    tasks = try await APIHandler.fetchTasks()
+                    tasks = try await APIHandler.getTasks()
                     print("Fetched following tasks...")
                     print(tasks)
                 } catch {
