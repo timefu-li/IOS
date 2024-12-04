@@ -1,18 +1,18 @@
 //
-//  ContentView.swift
+//  HomeView.swift
 //  IOS
 //
-//  Created by Curt Spark on 25/11/2024.
+//  Created by Curt Spark on 04/12/2024.
 //
 
 import SwiftUI
 import SwiftData
 
-struct ContentView: View {
+struct HomeView: View {
     @State var test: [String]
 
     init() {
-        test = ["hi", "there"]
+        test = ["hi", "there", "edited"]
     }
 
     var body: some View {
@@ -35,5 +35,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    HomeView()
 }
