@@ -19,19 +19,16 @@ struct HomeView: View {
 
     var body: some View {
         VStack {
-            List(tasks, id: \.self, rowContent: { (taskelement: Task) in
-                Text(taskelement.name ?? "No name found!")
-            }).task({ () async -> Void in
-                do {
-                    tasks = try await APIHandler.getTasks()
-                    print("Fetched following tasks...")
-                    print(tasks)
-                } catch {
-                    tasks = []
-                    errorstate = error.self
-                    print("Encountered the following error fetching tasks!")
-                    print("\(error.self) : \(error.localizedDescription)")
-                }
+            Group(content: {
+                    switch errorstate {
+                        case APIHandler.APIHandlerError.OK:
+                            List(tasks, id: \.self, rowContent: { (taskelement: Task) in
+                                Text(taskelement.name ?? "No name found!")
+                            })
+                        default:
+                            Text("Received following error!")
+                            Text("\(errorstate.self) : \(errorstate.localizedDescription)")
+                    }
             })
             //HStack {
             //    Button("New Item", action: {
@@ -43,7 +40,18 @@ struct HomeView: View {
             //    })
             //        .frame(width: 50, height: 50)
             //}
-        }
+        }.task({ () async -> Void in
+                do {
+                    tasks = try await APIHandler.getTasks()
+                    print("Fetched following tasks...")
+                    print(tasks)
+                } catch {
+                    tasks = []
+                    errorstate = error.self
+                    print("Encountered the following error fetching tasks!")
+                    print("\(error.self) : \(error.localizedDescription)")
+                }
+            })
     }
 }
 
