@@ -24,19 +24,21 @@ struct TasksView: View {
             Group(content: {
                     switch errorstate {
                         case APIHandler.APIHandlerError.OK:
-                        ForEach(categories, id: \.self, content: { (categoryelement: Category) in
-                            List(content: {
-                                Section (content: {
-                                    let tasks: [Task] = categoryelement.tasks ?? []
-                                    ForEach(tasks, id: \.self, content: { (taskelement: Task) in
-                                        Button("\(taskelement.category?.emoji ?? "")  \(taskelement.name ?? "No name found!")", action: {
-                                            print(taskelement.name ?? "No name found!")
+                        List(content: {
+                            ForEach(categories, id: \.self, content: { (categoryelement: Category) in
+                                let tasks: [Task] = categoryelement.tasks ?? []
+                                if (tasks.count > 0) {
+                                    Section (content: {
+                                        ForEach(tasks, id: \.self, content: { (taskelement: Task) in
+                                            Button("\(taskelement.category?.emoji ?? "")  \(taskelement.name ?? "No name found!")", action: {
+                                                print(taskelement.name ?? "No name found!")
+                                            })
                                         })
-                                    })
-                                }, header: { Text("\(categoryelement.emoji ?? "") \(categoryelement.name ?? "Category name not found!")") })
+                                    }, header: { Text("\(categoryelement.emoji ?? "") \(categoryelement.name ?? "Category name not found!")") })
+                                }
                             })
                         })
-                        case APIHandler.APIHandlerError.decodeModelError(reason: "NOTFOUND:No tasks found"):
+                        case APIHandler.APIHandlerError.decodeModelError(reason: "NOTFOUND:No categories found"):
                             Text("No tasks found!")
                         default:
                             Text("Received following error!")
