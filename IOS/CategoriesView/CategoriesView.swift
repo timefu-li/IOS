@@ -38,8 +38,6 @@ struct CategoriesView: View {
             }).task({ () async -> Void in
                 do {
                     categories = try await APIHandler.getCategories()
-                    print("Fetched following categories...")
-                    print(categories)
                 } catch {
                     categories = []
                     errorstate = error.self

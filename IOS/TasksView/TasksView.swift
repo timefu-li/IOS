@@ -9,11 +9,11 @@ import SwiftUI
 import SwiftData
 
 struct TasksView: View {
-    @State var tasks: [Task]
+    @State var categories: [Category]
     @State var errorstate: any Error
 
     init() {
-        tasks = []
+        categories = []
         errorstate = APIHandler.APIHandlerError.OK
     }
 
@@ -24,28 +24,24 @@ struct TasksView: View {
             Group(content: {
                     switch errorstate {
                         case APIHandler.APIHandlerError.OK:
-                            List(tasks, id: \.self, rowContent: { (taskelement: Task) in
-                                Button("\(taskelement.category?.emoji ?? "")  \(taskelement.name ?? "No name found!")", action: {
-                                    print(taskelement.name ?? "No name found!")
-                                })
+                        ForEach(categories, id: \.self, content: { (categoryelement: Category) in
+                            List(content: {
+                                Section (content: {
+                                    let tasks: [Task] = categoryelement.tasks ?? []
+                                    ForEach(tasks, id: \.self, content: { (taskelement: Task) in
+                                        Button("\(taskelement.category?.emoji ?? "")  \(taskelement.name ?? "No name found!")", action: {
+                                            print(taskelement.name ?? "No name found!")
+                                        })
+                                    })
+                                }, header: { Text("\(categoryelement.emoji ?? "") \(categoryelement.name ?? "Category name not found!")") })
                             })
+                        })
                         case APIHandler.APIHandlerError.decodeModelError(reason: "NOTFOUND:No tasks found"):
                             Text("No tasks found!")
                         default:
                             Text("Received following error!")
                             Text("\(errorstate.self) : \(errorstate.localizedDescription)")
                     }
-            }).task({ () async -> Void in
-                do {
-                    tasks = try await APIHandler.getTasks()
-                    print("Fetched following tasks...")
-                    print(tasks)
-                } catch {
-                    tasks = []
-                    errorstate = error.self
-                    print("Encountered the following error fetching tasks!")
-                    print("\(error.self) : \(error.localizedDescription)")
-                }
             })
             //HStack {
             //    Button("New Item", action: {
@@ -57,7 +53,16 @@ struct TasksView: View {
             //    })
             //        .frame(width: 50, height: 50)
             //}
-        }
+        }.task({ () async -> Void in
+                do {
+                    categories = try await APIHandler.getCategories()
+                } catch {
+                    categories = []
+                    errorstate = error.self
+                    print("Encountered the following error fetching tasks!")
+                    print("\(error.self) : \(error.localizedDescription)")
+                }
+            })
     }
 }
 

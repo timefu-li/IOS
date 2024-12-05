@@ -39,11 +39,10 @@ struct HomeTasksView: View {
                             Text("Received following error!")
                             Text("\(errorstate.self) : \(errorstate.localizedDescription)")
                     }
-            }).task({ () async -> Void in
+            })
+    }.task({ () async -> Void in
                 do {
                     tasks = try await APIHandler.getTasks()
-                    print("Fetched following tasks...")
-                    print(tasks)
                 } catch {
                     tasks = []
                     errorstate = error.self
@@ -51,18 +50,7 @@ struct HomeTasksView: View {
                     print("\(error.self) : \(error.localizedDescription)")
                 }
             })
-            //HStack {
-            //    Button("New Item", action: {
-            //        test.append("Wooo")
-            //    })
-            //        .frame(width: 50, height: 50)
-            //    Button("New Item 2", action: {
-            //        test.append("Wooo")
-            //    })
-            //        .frame(width: 50, height: 50)
-            //}
         }
-    }
 }
 
 #Preview {
