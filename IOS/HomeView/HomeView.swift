@@ -34,7 +34,7 @@ struct HomeView: View {
                         Label("Tasks", systemImage: "2.circle")
                     })
                     .tag(1)
-                HomeRecentView()
+                HomeTasksView()
                     .tabItem({
                         Label("Home", systemImage: "1.circle")
                     })

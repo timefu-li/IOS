@@ -1,5 +1,5 @@
 //
-//  HomeRecentView.swift
+//  HomeTasksView.swift
 //  IOS
 //
 //  Created by Curt Spark on 05/12/2024.
@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct HomeRecentView: View {
+struct HomeTasksView: View {
     @State var tasks: [Task]
     @State var errorstate: any Error
 
@@ -66,5 +66,5 @@ struct HomeRecentView: View {
 }
 
 #Preview {
-    HomeRecentView()
+    HomeTasksView()
 }
