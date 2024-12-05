@@ -11,8 +11,8 @@ struct APIHandler {
     public enum APIHandlerError: Error {
         case OK
         case urlCheckFail
-        case urlRequestFail(reasonPhrase: String)
-        case decodeModelError(reasonPhrase: String)
+        case urlRequestFail(reason: String)
+        case decodeModelError(reason: String)
         case decodeBackendErrorResponseError
     }
 
@@ -28,7 +28,7 @@ struct APIHandler {
         do {
             requestOutcome = try await URLSession.shared.data(from: urlObject)
         } catch {
-            throw APIHandlerError.urlRequestFail(reasonPhrase: error.localizedDescription)
+            throw APIHandlerError.urlRequestFail(reason: error.localizedDescription)
         }
 
         return requestOutcome.Data
@@ -42,7 +42,7 @@ struct APIHandler {
                 throw APIHandlerError.decodeBackendErrorResponseError
             }
 
-            throw APIHandlerError.decodeModelError(reasonPhrase: resulterror.reasonPhrase)
+            throw APIHandlerError.decodeModelError(reason: resulterror.reason)
         }
 
         return result
@@ -56,7 +56,7 @@ struct APIHandler {
                 throw APIHandlerError.decodeBackendErrorResponseError
             }
 
-            throw APIHandlerError.decodeModelError(reasonPhrase: resulterror.reasonPhrase)
+            throw APIHandlerError.decodeModelError(reason: resulterror.reason)
         }
 
         return result

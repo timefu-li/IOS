@@ -27,12 +27,12 @@ struct BackendColor: Codable, Identifiable, Hashable {
 
 struct BackendError: Codable, Identifiable {
     let error: Bool
-    let reasonPhrase: String
+    let reason: String
     let id: UUID? = UUID()
 
-    init(error: Bool, reasonPhrase: String) {
+    init(error: Bool, reason: String) {
         self.error = error
-        self.reasonPhrase = reasonPhrase
+        self.reason = reason
     }
 }
 
