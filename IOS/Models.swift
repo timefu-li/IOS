@@ -55,7 +55,7 @@ struct BackendColor: Codable, Identifiable, Hashable {
         var swiftcolor_B: CGFloat = 0
         var swiftcolor_A: CGFloat = 0
         UIColor(swiftcolor).getRed(&swiftcolor_R, green: &swiftcolor_G, blue: &swiftcolor_B, alpha: &swiftcolor_A)
-        return BackendColor(red: UInt8(swiftcolor_R), green: UInt8(swiftcolor_G), blue: UInt8(swiftcolor_B))
+        return BackendColor(red: UInt8(swiftcolor_R * 255.0), green: UInt8(swiftcolor_G * 255.0), blue: UInt8(swiftcolor_B * 255.0))
     }
 }
 
