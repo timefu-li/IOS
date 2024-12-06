@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct HomeView: View {
-    @State var tasks: [Task]
+    @State var tasks: [TaskModel]
     @State var errorstate: any Error
     @State var taskelapsed: Date
     @State var tabselection = 2

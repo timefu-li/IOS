@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct TasksView: View {
-    @State var categories: [Category]
+    @State var categories: [CategoryModel]
     @State var errorstate: any Error
 
     init() {
@@ -25,11 +25,11 @@ struct TasksView: View {
                 switch errorstate {
                     case APIHandler.APIHandlerError.OK:
                         List(content: {
-                            ForEach(categories, id: \.self, content: { (categoryelement: Category) in
-                                let tasks: [Task] = categoryelement.tasks ?? []
+                            ForEach(categories, id: \.self, content: { (categoryelement: CategoryModel) in
+                                let tasks: [TaskModel] = categoryelement.tasks ?? []
                                 if (tasks.count > 0) {
                                     Section (content: {
-                                        ForEach(tasks, id: \.self, content: { (taskelement: Task) in
+                                        ForEach(tasks, id: \.self, content: { (taskelement: TaskModel) in
                                             Button("\(taskelement.category?.emoji ?? "")  \(taskelement.name ?? "No name found!")", action: {
                                                 print(taskelement.name ?? "No name found!")
                                             })

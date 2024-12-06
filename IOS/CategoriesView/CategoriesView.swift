@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct CategoriesView: View {
-    @State var categories: [Category]
+    @State var categories: [CategoryModel]
     @State var errorstate: any Error
 
     init() {
@@ -24,7 +24,7 @@ struct CategoriesView: View {
             Group(content: {
                     switch errorstate {
                         case APIHandler.APIHandlerError.OK:
-                            List(categories, id: \.self, rowContent: { (categoryelement: Category) in
+                            List(categories, id: \.self, rowContent: { (categoryelement: CategoryModel) in
                                 Button("\(categoryelement.emoji ?? "")  \(categoryelement.name ?? "No name found!")", action: {
                                     print(categoryelement.name ?? "No name found!")
                                 })
