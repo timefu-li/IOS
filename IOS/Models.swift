@@ -48,6 +48,15 @@ struct BackendColor: Codable, Identifiable, Hashable {
     public func toSwiftColor() -> Color {
         return Color(red: Double(self.red) / 255.0, green: Double(self.green) / 255.0, blue: Double(self.blue) / 255.0)
     }
+
+    public static func toBackendColor(swiftcolor: Color) -> BackendColor {
+        var swiftcolor_R: CGFloat = 0
+        var swiftcolor_G: CGFloat = 0
+        var swiftcolor_B: CGFloat = 0
+        var swiftcolor_A: CGFloat = 0
+        UIColor(swiftcolor).getRed(&swiftcolor_R, green: &swiftcolor_G, blue: &swiftcolor_B, alpha: &swiftcolor_A)
+        return BackendColor(red: UInt8(swiftcolor_R), green: UInt8(swiftcolor_G), blue: UInt8(swiftcolor_B))
+    }
 }
 
 struct BackendError: Codable, Identifiable {

@@ -20,22 +20,27 @@ struct CategoriesView: View {
     var body: some View {
         VStack {
 
-            // Tasks list
-            Group(content: {
-                    switch errorstate {
-                        case APIHandler.APIHandlerError.OK:
-                            List(categories, id: \.self, rowContent: { (categoryelement: CategoryModel) in
-                                Button("\(categoryelement.emoji ?? "")  \(categoryelement.name ?? "No name found!")", action: {
-                                    print(categoryelement.name ?? "No name found!")
-                                })
+            NavigationStack {
+                // Tasks list
+                switch errorstate {
+                    case APIHandler.APIHandlerError.OK:
+                        List(categories, id: \.self, rowContent: { (categoryelement: CategoryModel) in
+                            Button("\(categoryelement.emoji ?? "")  \(categoryelement.name ?? "No name found!")", action: {
+                                print(categoryelement.name ?? "No name found!")
                             })
-                        case APIHandler.APIHandlerError.decodeModelError(reason: "NOTFOUND:No categories found"):
-                            Text("No categories found!")
-                        default:
-                            Text("Received following error!")
-                            Text("\(errorstate.self) : \(errorstate.localizedDescription)")
-                    }
-            }).task({ () async -> Void in
+                                .listRowBackground(categoryelement.colour?.toSwiftColor())
+                                .foregroundColor(categoryelement.colour?.toSwiftColor().adaptedTextColor())
+                        })
+                    case APIHandler.APIHandlerError.decodeModelError(reason: "NOTFOUND:No categories found"):
+                        Text("No categories found!")
+                    default:
+                        Text("Received following error!")
+                        Text("\(errorstate.self) : \(errorstate.localizedDescription)")
+                }
+                NavigationLink(destination: CategoriesAddView(), label: {
+                    Text("New Category")
+                })
+            }.task({ () async -> Void in
                 do {
                     categories = try await APIHandler.getCategories()
                 } catch {

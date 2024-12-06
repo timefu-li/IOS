@@ -34,6 +34,8 @@ struct TasksView: View {
                                                 print(taskelement.name ?? "No name found!")
                                             })
                                         })
+                                            .listRowBackground(categoryelement.colour?.toSwiftColor())
+                                            .foregroundColor(categoryelement.colour?.toSwiftColor().adaptedTextColor())
                                     }, header: { Text("\(categoryelement.emoji ?? "") \(categoryelement.name ?? "Category name not found!")") })
                                 }
                             })

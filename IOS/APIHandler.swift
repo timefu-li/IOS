@@ -65,6 +65,20 @@ struct APIHandler {
         return result
     }
 
+    static public func newCategory(category: CategoryModel) async throws(APIHandlerError) -> CategoryModel {
+        let jsondata = try await attemptRequest(url: "http://127.0.0.1:8080/categories", method: HTTPMethod.POST, category: category)
+ 
+        guard let result: CategoryModel = try? JSONDecoder().decode(CategoryModel.self, from: jsondata) else {
+            guard let resulterror: BackendError = try? JSONDecoder().decode(BackendError.self, from: jsondata) else {
+                throw APIHandlerError.decodeBackendErrorResponseError
+            }
+
+            throw APIHandlerError.decodeModelError(reason: resulterror.reason)
+        }
+
+        return result
+    }
+
     static public func getTasks() async throws(APIHandlerError) -> [TaskModel] {
         let jsondata = try await attemptRequest(url: "http://localhost:8080/tasks", method: HTTPMethod.GET)
  

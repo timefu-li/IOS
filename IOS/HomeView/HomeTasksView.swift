@@ -30,6 +30,8 @@ struct HomeTasksView: View {
                                         Button("\(taskelement.category?.emoji ?? "")  \(taskelement.name ?? "No name found!")", action: {
                                             print(taskelement.name ?? "No name found!")
                                         })
+                                            .listRowBackground(taskelement.category?.colour?.toSwiftColor())
+                                            .foregroundColor(taskelement.category?.colour?.toSwiftColor().adaptedTextColor())
                                     })
                                 }, header: { Label("Recently used tasks", systemImage: "1.circle") })
                             })

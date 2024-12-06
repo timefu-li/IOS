@@ -30,7 +30,7 @@ struct TasksAddView: View {
             Form {
                 Section(header: Text("Task name")) {
                     TextField(text: $taskname, prompt: Text("My task")) {
-                        Text("Username")
+                        Text("Task name")
                     }
                 }
                 Section(header: Text("Attributes")) {
@@ -63,7 +63,6 @@ struct TasksAddView: View {
                         let newtaskmodel = TaskModel(name: taskname, category: categoryselection)
 
                         let result = try await APIHandler.newTask(task: newtaskmodel)
-                        print(result)
                     }
                 })
             }
