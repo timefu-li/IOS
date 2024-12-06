@@ -57,7 +57,9 @@ struct CategoriesAddView: View {
                             }
                         })
                     }.sheet(isPresented: $selectemoji, content: {
-                        EmojiPickerView(selectedEmoji: $taskemoji, selectedColor: .orange)
+                        NavigationView {
+                            EmojiPickerView(selectedEmoji: $taskemoji, selectedColor: .orange)
+                        }
                     })
         }
     }
