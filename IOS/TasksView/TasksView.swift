@@ -20,10 +20,10 @@ struct TasksView: View {
     var body: some View {
         VStack {
 
-            // Tasks list
-            Group(content: {
-                    switch errorstate {
-                        case APIHandler.APIHandlerError.OK:
+            NavigationStack {
+                // Tasks list
+                switch errorstate {
+                    case APIHandler.APIHandlerError.OK:
                         List(content: {
                             ForEach(categories, id: \.self, content: { (categoryelement: Category) in
                                 let tasks: [Task] = categoryelement.tasks ?? []
@@ -38,13 +38,17 @@ struct TasksView: View {
                                 }
                             })
                         })
-                        case APIHandler.APIHandlerError.decodeModelError(reason: "NOTFOUND:No categories found"):
-                            Text("No tasks found!")
-                        default:
-                            Text("Received following error!")
-                            Text("\(errorstate.self) : \(errorstate.localizedDescription)")
-                    }
-            })
+                    case APIHandler.APIHandlerError.decodeModelError(reason: "NOTFOUND:No categories found"):
+                        Text("No tasks found!")
+                    default:
+                        Text("Received following error!")
+                        Text("\(errorstate.self) : \(errorstate.localizedDescription)")
+                }
+                NavigationLink(destination: TasksAddView(), label: {
+                    Text("New Task")
+                })
+            }
+
             //HStack {
             //    Button("New Item", action: {
             //        test.append("Wooo")
