@@ -39,8 +39,8 @@ struct TasksAddView: View {
                             Text("\(categoryelement.emoji ?? "")  \(categoryelement.name ?? "Category name not found!")").tag(categoryelement)
                         })
                     }
-                            .listRowBackground(categoryselection?.colour?.toSwiftColor())
-                            .foregroundColor(categoryselection?.colour?.toSwiftColor().adaptedTextColor())
+                        //.listRowBackground(categoryselection?.colour?.toSwiftColor())
+                        //.foregroundColor(categoryselection?.colour?.toSwiftColor().adaptedTextColor())
                 }
                 //Section(header: Text("Notifications")) {
                 //    Picker("Notify Me About", selection: $notifyMeAbout) {
