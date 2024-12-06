@@ -60,7 +60,10 @@ struct TasksAddView: View {
                 //}
                 Button("New Task", action: {
                     Task {
-                        print("hi")
+                        let newtaskmodel = TaskModel(name: taskname, category: categoryselection)
+
+                        let result = try await APIHandler.newTask(task: newtaskmodel)
+                        print(result)
                     }
                 })
             }

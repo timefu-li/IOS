@@ -28,7 +28,7 @@ struct APIHandler {
             throw APIHandlerError.urlCheckFail
         }
         var request = URLRequest(url: urlObject)
-        request.httpMethod = method.rawValue
+        request.httpMethod = method.rawValue 
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         if (task != nil) {
@@ -43,7 +43,7 @@ struct APIHandler {
 
         var requestOutcome: (Data: Data, URLResponse: URLResponse)
         do {
-            requestOutcome = try await URLSession.shared.data(from: urlObject)
+            requestOutcome = try await URLSession.shared.data(for: request)
         } catch {
             throw APIHandlerError.urlRequestFail(reason: error.localizedDescription)
         }
@@ -52,7 +52,7 @@ struct APIHandler {
     }
 
     static public func newTask(task: TaskModel) async throws(APIHandlerError) -> TaskModel {
-        let jsondata = try await attemptRequest(url: "http://localhost:8080/tasks", method: HTTPMethod.POST, task: task)
+        let jsondata = try await attemptRequest(url: "http://127.0.0.1:8080/tasks", method: HTTPMethod.POST, task: task)
  
         guard let result: TaskModel = try? JSONDecoder().decode(TaskModel.self, from: jsondata) else {
             guard let resulterror: BackendError = try? JSONDecoder().decode(BackendError.self, from: jsondata) else {
