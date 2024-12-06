@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		0B0329212D035C1800AB6969 /* EmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 0B0329202D035C1800AB6969 /* EmojiPicker */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		0BBA922E2CF4EDD900412729 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B0329212D035C1800AB6969 /* EmojiPicker in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,12 +77,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0B03291F2D035C1800AB6969 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		0BBA92122CF4EDD800412729 = {
 			isa = PBXGroup;
 			children = (
 				0BBA921D2CF4EDD800412729 /* IOS */,
 				0BBA92302CF4EDD900412729 /* IOSTests */,
 				0BBA923A2CF4EDD900412729 /* IOSUITests */,
+				0B03291F2D035C1800AB6969 /* Frameworks */,
 				0BBA921C2CF4EDD800412729 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -112,6 +125,7 @@
 			);
 			name = IOS;
 			packageProductDependencies = (
+				0B0329202D035C1800AB6969 /* EmojiPicker */,
 			);
 			productName = IOS;
 			productReference = 0BBA921B2CF4EDD800412729 /* IOS.app */;
@@ -195,6 +209,9 @@
 			);
 			mainGroup = 0BBA92122CF4EDD800412729;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				0B0328FE2D03590C00AB6969 /* XCRemoteSwiftPackageReference "EmojiPicker" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 0BBA921C2CF4EDD800412729 /* Products */;
 			projectDirPath = "";
@@ -558,6 +575,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0B0328FE2D03590C00AB6969 /* XCRemoteSwiftPackageReference "EmojiPicker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Kelvas09/EmojiPicker";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0B0329202D035C1800AB6969 /* EmojiPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0B0328FE2D03590C00AB6969 /* XCRemoteSwiftPackageReference "EmojiPicker" */;
+			productName = EmojiPicker;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0BBA92132CF4EDD800412729 /* Project object */;
 }
