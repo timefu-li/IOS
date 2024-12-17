@@ -26,13 +26,9 @@ struct HomeTasksView: View {
                         case APIHandler.APIHandlerError.OK:
                             List(content: {
                                 Section (content: {
-                                    ForEach(tasks, id: \.self, content: { (taskelement: TaskModel) in
-                                        Button("\(taskelement.category?.emoji ?? "")  \(taskelement.name ?? "No name found!")", action: {
-                                            print(taskelement.name ?? "No name found!")
-                                        })
-                                            .listRowBackground(taskelement.category?.colour?.toSwiftColor())
-                                            .foregroundColor(taskelement.category?.colour?.toSwiftColor().adaptedTextColor())
-                                    })
+                                             ForEach(tasks, id: \.self, content: { (taskelement: TaskModel) in
+                                                                            TaskButton(taskelement: taskelement)
+                                                                        })
                                 }, header: { Label("Recently used tasks", systemImage: "1.circle") })
                             })
                         case APIHandler.APIHandlerError.decodeModelError(reason: "NOTFOUND:No tasks found"):
