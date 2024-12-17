@@ -9,13 +9,15 @@ import SwiftUI
 import SwiftData
 
 struct HomeTasksView: View {
-    @State var tasks: [TaskModel]
-    @State var errorstate: any Error
+    @Binding var currenttask: CompletedTaskModel
+    @Binding var taskelapsedseconds: TimeInterval
+    @State var tasks: [TaskModel] = []
+    @State var errorstate: any Error = APIHandler.APIHandlerError.OK
 
-    init() {
-        tasks = []
-        errorstate = APIHandler.APIHandlerError.OK
-    }
+    //init() {
+    //    tasks = []
+    //    errorstate = APIHandler.APIHandlerError.OK
+    //}
 
     var body: some View {
         VStack {
@@ -27,7 +29,7 @@ struct HomeTasksView: View {
                             List(content: {
                                 Section (content: {
                                              ForEach(tasks, id: \.self, content: { (taskelement: TaskModel) in
-                                                                            TaskButton(taskelement: taskelement)
+                                                                            TaskButton(taskelement: taskelement, currenttask: self.$currenttask, taskelapsedseconds: self.$taskelapsedseconds)
                                                                         })
                                 }, header: { Label("Recently used tasks", systemImage: "1.circle") })
                             })
@@ -51,6 +53,6 @@ struct HomeTasksView: View {
         }
 }
 
-#Preview {
-    HomeTasksView()
-}
+//#Preview {
+//    HomeTasksView()
+//}

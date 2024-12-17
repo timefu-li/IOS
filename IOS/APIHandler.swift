@@ -20,6 +20,7 @@ struct APIHandler {
         case POST = "POST"
         case GET = "GET"
         case UPDATE = "UPDATE"
+        case PATCH = "PATCH"
         case DELETE = "DELETE"
     }
 
@@ -31,14 +32,18 @@ struct APIHandler {
         request.httpMethod = method.rawValue 
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
+        // Custom decoder to handle dates properly
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+
         if (task != nil) {
-            request.httpBody = try? JSONEncoder().encode(task)
+            request.httpBody = try? encoder.encode(task)
         }
         if (completedtask != nil) {
-            request.httpBody = try? JSONEncoder().encode(completedtask)
+            request.httpBody = try? encoder.encode(completedtask)
         }
         if (category != nil) {
-            request.httpBody = try? JSONEncoder().encode(category)
+            request.httpBody = try? encoder.encode(category)
         }
 
         var requestOutcome: (Data: Data, URLResponse: URLResponse)
@@ -70,6 +75,24 @@ struct APIHandler {
  
         guard let result: CategoryModel = try? JSONDecoder().decode(CategoryModel.self, from: jsondata) else {
             guard let resulterror: BackendError = try? JSONDecoder().decode(BackendError.self, from: jsondata) else {
+                throw APIHandlerError.decodeBackendErrorResponseError
+            }
+
+            throw APIHandlerError.decodeModelError(reason: resulterror.reason)
+        }
+
+        return result
+    }
+
+    static public func newCompletedTask(completedtask: CompletedTaskModel) async throws(APIHandlerError) -> CompletedTaskModel {
+        let jsondata = try await attemptRequest(url: "http://127.0.0.1:8080/completedtasks", method: HTTPMethod.POST, completedtask: completedtask)
+
+        // Ensure dates can be decoded correctly
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+ 
+        guard let result: CompletedTaskModel = try? decoder.decode(CompletedTaskModel.self, from: jsondata) else {
+            guard let resulterror: BackendError = try? decoder.decode(BackendError.self, from: jsondata) else {
                 throw APIHandlerError.decodeBackendErrorResponseError
             }
 
@@ -117,6 +140,31 @@ struct APIHandler {
         //} catch {
         //    print("error! \(error)")
         //}
+
+        return result
+    }
+
+    static public func newCurrentTask(task: TaskModel) async throws(APIHandlerError) -> CompletedTaskModel {
+        let currenttask = try! await APIHandler.getCompletedTasks()[0]
+        let updatedcompletedtaskmodel = CompletedTaskModel(completed: Date.now)
+        let newcompletedtask = CompletedTaskModel(name: task.name, task: task, started: Date.now)
+
+        // Ensure dates can be decoded correctly
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+
+        // Update current task to be finished
+        let jsondata = try await attemptRequest(url: "http://127.0.0.1:8080/completedtasks/\(currenttask.id ?? UUID())?completed=\(Date.now.ISO8601Format())", method: HTTPMethod.PATCH)
+        guard let updateresult: CompletedTaskModel = try? decoder.decode(CompletedTaskModel.self, from: jsondata) else {
+            guard let resulterror: BackendError = try? decoder.decode(BackendError.self, from: jsondata) else {
+                throw APIHandlerError.decodeBackendErrorResponseError
+            }
+
+            throw APIHandlerError.decodeModelError(reason: resulterror.reason)
+        }
+
+        // Add new current task
+        let result: CompletedTaskModel = try! await APIHandler.newCompletedTask(completedtask: newcompletedtask)
 
         return result
     }
