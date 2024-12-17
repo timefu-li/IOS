@@ -93,6 +93,34 @@ struct APIHandler {
         return result
     }
 
+    static public func getCompletedTasks() async throws(APIHandlerError) -> [CompletedTaskModel] {
+        let jsondata = try await attemptRequest(url: "http://localhost:8080/completedtasks", method: HTTPMethod.GET)
+
+        // Ensure dates can be decoded correctly
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+
+        guard let result: [CompletedTaskModel] = try? decoder.decode([CompletedTaskModel].self, from: jsondata) else {
+            guard let resulterror: BackendError = try? JSONDecoder().decode(BackendError.self, from: jsondata) else {
+                throw APIHandlerError.decodeBackendErrorResponseError
+            }
+
+            throw APIHandlerError.decodeModelError(reason: resulterror.reason)
+        }
+
+        //print(NSString(data: jsondata, encoding: String.Encoding.utf8.rawValue))
+        //do {
+        //    let decoder = JSONDecoder()
+        //    decoder.dateDecodingStrategy = .iso8601
+        //    let result: CompletedTaskModel = try decoder.decode(CompletedTaskModel.self, from: jsondata)
+        //    return result
+        //} catch {
+        //    print("error! \(error)")
+        //}
+
+        return result
+    }
+
     static public func getCategories() async throws(APIHandlerError) -> [CategoryModel] {
         let jsondata = try await attemptRequest(url: "http://localhost:8080/categories", method: HTTPMethod.GET)
  

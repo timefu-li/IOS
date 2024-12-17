@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0B0329212D035C1800AB6969 /* EmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 0B0329202D035C1800AB6969 /* EmojiPicker */; };
+		0BB11ED32D1066DC00A33ADE /* EmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 0BB11ED22D1066DC00A33ADE /* EmojiPicker */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0B77A8C82D0C442B00FE337F /* Smile */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Smile; path = "/Users/curt.spark/Library/Developer/Xcode/DerivedData/IOS-fzvdhatofbltzkafefrcerbtraez/SourcePackages/checkouts/Smile"; sourceTree = "<absolute>"; };
 		0BBA921B2CF4EDD800412729 /* IOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BBA922D2CF4EDD900412729 /* IOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BBA92372CF4EDD900412729 /* IOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,7 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B0329212D035C1800AB6969 /* EmojiPicker in Frameworks */,
+				0BB11ED32D1066DC00A33ADE /* EmojiPicker in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,6 +81,7 @@
 		0B03291F2D035C1800AB6969 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0B77A8C82D0C442B00FE337F /* Smile */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -125,7 +127,7 @@
 			);
 			name = IOS;
 			packageProductDependencies = (
-				0B0329202D035C1800AB6969 /* EmojiPicker */,
+				0BB11ED22D1066DC00A33ADE /* EmojiPicker */,
 			);
 			productName = IOS;
 			productReference = 0BBA921B2CF4EDD800412729 /* IOS.app */;
@@ -210,7 +212,8 @@
 			mainGroup = 0BBA92122CF4EDD800412729;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				0B0328FE2D03590C00AB6969 /* XCRemoteSwiftPackageReference "EmojiPicker" */,
+				0BB11ED12D1066DC00A33ADE /* XCRemoteSwiftPackageReference "EmojiPicker" */,
+				0BB11ED42D1067B500A33ADE /* XCLocalSwiftPackageReference "../Smile" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 0BBA921C2CF4EDD800412729 /* Products */;
@@ -412,7 +415,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"IOS/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "IOS/Preview\\ Content";
 				DEVELOPMENT_TEAM = 25R66UTHH6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -441,7 +444,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"IOS/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "IOS/Preview\\ Content";
 				DEVELOPMENT_TEAM = 25R66UTHH6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -576,8 +579,15 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		0BB11ED42D1067B500A33ADE /* XCLocalSwiftPackageReference "../Smile" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../Smile;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
-		0B0328FE2D03590C00AB6969 /* XCRemoteSwiftPackageReference "EmojiPicker" */ = {
+		0BB11ED12D1066DC00A33ADE /* XCRemoteSwiftPackageReference "EmojiPicker" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Kelvas09/EmojiPicker";
 			requirement = {
@@ -588,9 +598,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0B0329202D035C1800AB6969 /* EmojiPicker */ = {
+		0BB11ED22D1066DC00A33ADE /* EmojiPicker */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0B0328FE2D03590C00AB6969 /* XCRemoteSwiftPackageReference "EmojiPicker" */;
+			package = 0BB11ED12D1066DC00A33ADE /* XCRemoteSwiftPackageReference "EmojiPicker" */;
 			productName = EmojiPicker;
 		};
 /* End XCSwiftPackageProductDependency section */

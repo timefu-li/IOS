@@ -43,7 +43,7 @@ struct CategoriesAddView: View {
                             Button {
                                 selectemoji = true
                             } label: {
-                                Text("Select emoji \(taskemoji?.value ?? "")")
+                                
                             }
                             ColorPicker("Category Colour", selection: $categorycolour)
                                     .listRowBackground(categorycolour)

@@ -11,20 +11,31 @@ import SwiftData
 struct HomeView: View {
     @State var tasks: [TaskModel]
     @State var errorstate: any Error
-    @State var taskelapsed: Date
     @State var tabselection = 2
+    @State var test: Int = 0
+
+    @State var currenttask: CompletedTaskModel
+    @State var taskstarted: Date
+    @State var taskelapsedseconds: TimeInterval
+
+    let dateformatter: DateComponentsFormatter = DateComponentsFormatter()
 
     init() {
         tasks = []
         errorstate = APIHandler.APIHandlerError.OK
-        taskelapsed = Date.now
+
+        currenttask = CompletedTaskModel(started: Date.now)
+        taskstarted = Date.now
+        taskelapsedseconds = 0
     }
 
     var body: some View {
         VStack {
 
-            Button(taskelapsed.formatted(date: .omitted, time: .shortened), action: {
-                print(taskelapsed.formatted(date: .omitted, time: .shortened))
+            Text("\(currenttask.task?.category?.emoji ?? "")  \(currenttask.task?.name ?? "Unknown")")
+
+            Button(dateformatter.string(from: taskelapsedseconds) ?? "0", action: {
+                print(dateformatter.string(from: taskelapsedseconds) ?? "0")
             })
                 .font(.system(size: 72))
 
@@ -46,7 +57,27 @@ struct HomeView: View {
                     .tag(3)
             })
 
-        }
+        }.task({ () async -> Void in
+                do {
+                    // TODO: This could be more efficient, would need to make an endpoint just for current task
+                    // The current task that is ongoing is always assumed to be the last appended task on the DB
+                    currenttask = try await APIHandler.getCompletedTasks()[0]
+                    taskstarted = currenttask.started ?? Date.now
+                    taskelapsedseconds = Date.now.timeIntervalSinceReferenceDate - taskstarted.timeIntervalSinceReferenceDate
+
+                    // Timer calculates task elapsed time based on saved current task start timestamp
+                    // TODO: This is flawed, it does not account for timezone savings adjustments
+                   let timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { [self] (timer) in
+                                                                                            taskelapsedseconds = Date.now.timeIntervalSinceReferenceDate - taskstarted.timeIntervalSinceReferenceDate
+                                                                                        }
+                   )
+                } catch {
+                    errorstate = error.self
+                    print("Encountered the following error fetching current task!")
+                    print("\(error.self) : \(error.localizedDescription)")
+                }
+            })
+
     }
 }
 
