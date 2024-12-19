@@ -1,14 +1,14 @@
 //
-//  TasksRemoveView.swift
+//  TasksEditView.swift
 //  IOS
 //
-//  Created by Curt Spark on 06/12/2024.
+//  Created by Curt Spark on 19/12/2024.
 //
 
 import SwiftUI
 import SwiftData
 
-struct TasksRemoveView: View {
+struct TasksEditView: View {
     @State var categories: [CategoryModel]
     @State var errorstate: any Error
 
@@ -86,5 +86,5 @@ struct TasksRemoveView: View {
 }
 
 // #Preview {
-//     TasksRemoveView()
+//     TasksEditView()
 // }

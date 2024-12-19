@@ -1,15 +1,15 @@
 //
-//  CategoriesRemoveView.swift
+//  CategoriesEditView.swift
 //  IOS
 //
-//  Created by Curt Spark on 06/12/2024.
+//  Created by Curt Spark on 19/12/2024.
 //
 
 import SwiftUI
 import SwiftData
 import EmojiPicker
 
-struct CategoriesRemoveView: View {
+struct CategoriesEditView: View {
     @State var categories: [CategoryModel]
     @State var errorstate: any Error
 
@@ -66,5 +66,5 @@ struct CategoriesRemoveView: View {
 }
 
 #Preview {
-    CategoriesRemoveView()
+    CategoriesEditView()
 }
