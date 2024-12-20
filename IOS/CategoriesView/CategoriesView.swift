@@ -24,12 +24,12 @@ struct CategoriesView: View {
                 // Tasks list
                 switch errorstate {
                     case APIHandler.APIHandlerError.OK:
-                        List(categories, id: \.self, rowContent: { (categoryelement: CategoryModel) in
-                            Button("\(categoryelement.emoji ?? "")  \(categoryelement.name ?? "No name found!")", action: {
-                                print(categoryelement.name ?? "No name found!")
-                            })
-                                .listRowBackground(categoryelement.colour?.toSwiftColor())
-                                .foregroundColor(categoryelement.colour?.toSwiftColor().adaptedTextColor())
+                        List(categories, id: \.self, rowContent: { (categoryelementin: CategoryModel) in
+                            NavigationLink(destination: CategoriesEditView(categoryelement: categoryelementin), label: {
+                                                                                                           Text("\(categoryelementin.emoji ?? "")  \(categoryelementin.name ?? "No name found!")")
+                                                                                                   })
+                                .listRowBackground(categoryelementin.colour?.toSwiftColor())
+                                .foregroundColor(categoryelementin.colour?.toSwiftColor().adaptedTextColor())
                         })
                     case APIHandler.APIHandlerError.decodeModelError(reason: "NOTFOUND:No categories found"):
                         Text("No categories found!")

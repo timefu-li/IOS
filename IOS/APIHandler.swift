@@ -169,7 +169,7 @@ struct APIHandler {
             decoder.dateDecodingStrategy = .iso8601
 
             // Update completed task
-            let jsondata = try await attemptRequest(url: "http://127.0.0.1:8080/completedtasks/\(completedtask.id)\(updatequery)", method: HTTPMethod.PATCH)
+            let jsondata = try await attemptRequest(url: "http://127.0.0.1:8080/completedtasks/\(completedtask.id!)\(updatequery)", method: HTTPMethod.PATCH)
             guard let result: CompletedTaskModel = try? decoder.decode(CompletedTaskModel.self, from: jsondata) else {
                     guard let resulterror: BackendError = try? decoder.decode(BackendError.self, from: jsondata) else {
                             throw APIHandlerError.decodeBackendErrorResponseError
@@ -200,7 +200,7 @@ struct APIHandler {
             decoder.dateDecodingStrategy = .iso8601
 
             // Update task
-            let jsondata = try await attemptRequest(url: "http://127.0.0.1:8080/tasks/\(task.id)\(updatequery)", method: HTTPMethod.PATCH)
+            let jsondata = try await attemptRequest(url: "http://127.0.0.1:8080/tasks/\(task.id!)\(updatequery)", method: HTTPMethod.PATCH)
             guard let result: TaskModel = try? decoder.decode(TaskModel.self, from: jsondata) else {
                     guard let resulterror: BackendError = try? decoder.decode(BackendError.self, from: jsondata) else {
                             throw APIHandlerError.decodeBackendErrorResponseError
@@ -235,7 +235,7 @@ struct APIHandler {
             decoder.dateDecodingStrategy = .iso8601
 
             // Update category
-            let jsondata = try await attemptRequest(url: "http://127.0.0.1:8080/categories/\(category.id)\(updatequery)", method: HTTPMethod.PATCH)
+            let jsondata = try await attemptRequest(url: "http://127.0.0.1:8080/categories/\(category.id!)\(updatequery)", method: HTTPMethod.PATCH)
             guard let result: CategoryModel = try? decoder.decode(CategoryModel.self, from: jsondata) else {
                     guard let resulterror: BackendError = try? decoder.decode(BackendError.self, from: jsondata) else {
                             throw APIHandlerError.decodeBackendErrorResponseError
@@ -265,6 +265,34 @@ struct APIHandler {
         let jsondata = try await attemptRequest(url: "http://localhost:8080/categories", method: HTTPMethod.GET)
  
         guard let result: [CategoryModel] = try? JSONDecoder().decode([CategoryModel].self, from: jsondata) else {
+            guard let resulterror: BackendError = try? JSONDecoder().decode(BackendError.self, from: jsondata) else {
+                throw APIHandlerError.decodeBackendErrorResponseError
+            }
+
+            throw APIHandlerError.decodeModelError(reason: resulterror.reason)
+        }
+
+        return result
+    }
+
+    static public func deleteTask(TaskID: UUID) async throws(APIHandlerError) -> TaskModel {
+            let jsondata = try await attemptRequest(url: "http://127.0.0.1:8080/tasks/\(TaskID)", method: HTTPMethod.DELETE)
+ 
+        guard let result: TaskModel = try? JSONDecoder().decode(TaskModel.self, from: jsondata) else {
+            guard let resulterror: BackendError = try? JSONDecoder().decode(BackendError.self, from: jsondata) else {
+                throw APIHandlerError.decodeBackendErrorResponseError
+            }
+
+            throw APIHandlerError.decodeModelError(reason: resulterror.reason)
+        }
+
+        return result
+    }
+
+    static public func deleteCategory(CategoryID: UUID) async throws(APIHandlerError) -> CategoryModel {
+            let jsondata = try await attemptRequest(url: "http://127.0.0.1:8080/categories/\(CategoryID)", method: HTTPMethod.DELETE)
+ 
+        guard let result: CategoryModel = try? JSONDecoder().decode(CategoryModel.self, from: jsondata) else {
             guard let resulterror: BackendError = try? JSONDecoder().decode(BackendError.self, from: jsondata) else {
                 throw APIHandlerError.decodeBackendErrorResponseError
             }

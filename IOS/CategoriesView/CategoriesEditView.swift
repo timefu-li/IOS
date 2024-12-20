@@ -15,16 +15,20 @@ struct CategoriesEditView: View {
 
     @State var selectemoji: Bool = false
 
-    @State var taskname: String
-    @State var taskemoji: Emoji?
+    @State var categoryname: String
+    @State var categoryemoji: Emoji?
     @State var categorycolour: Color
 
-    init() {
+    var categoryelement: CategoryModel
+
+    init(categoryelement: CategoryModel) {
         categories = []
         errorstate = APIHandler.APIHandlerError.OK
 
-        taskname = ""
-        categorycolour = Color(red: 128.0, green: 128.0, blue: 128.0)
+        self.categoryelement = categoryelement
+        categoryname = categoryelement.name ?? "Unknown name"
+        categoryemoji = Emoji(value: categoryelement.emoji ?? "", name: categoryelement.name ?? "")
+        categorycolour = BackendColor.toSwiftColor(categoryelement.colour ?? BackendColor(red: 0, green: 0, blue: 0))()
     }
 
     var body: some View {
@@ -32,7 +36,7 @@ struct CategoriesEditView: View {
 
                     Form {
                         Section(header: Text("Category name")) {
-                            TextField(text: $taskname, prompt: Text("My category")) {
+                            TextField(text: $categoryname, prompt: Text("My category")) {
                                 Text("Category")
                             }
                         }
@@ -49,22 +53,28 @@ struct CategoriesEditView: View {
                                     .listRowBackground(categorycolour)
                                     .foregroundColor(categorycolour.adaptedTextColor())
                         }
-                        Button("New Category", action: {
+                        Button("Update Category", action: {
                             Task {
-                                let newcategorymodel = CategoryModel(name: taskname, emoji: taskemoji?.value, colour: BackendColor.toBackendColor(swiftcolor: categorycolour))
+                                    //let newcategorymodel = CategoryModel(name: categoryname, emoji: categoryemoji?.value, colour: BackendColor.toBackendColor(swiftcolor: categorycolour), id: categoryelement.id)
+                                    let newcategorymodel = CategoryModel(name: categoryname, id: categoryelement.id ?? UUID())
 
-                                let result = try await APIHandler.newCategory(category: newcategorymodel)
+                                let result = try await APIHandler.updateCategory(category: newcategorymodel)
+                            }
+                        })
+                        Button("Delete Category", action: {
+                            Task {
+                                    let result = try await APIHandler.deleteCategory(CategoryID: categoryelement.id ?? UUID())
                             }
                         })
                     }.sheet(isPresented: $selectemoji, content: {
                         NavigationView {
-                            EmojiPickerView(selectedEmoji: $taskemoji, selectedColor: .orange)
+                            EmojiPickerView(selectedEmoji: $categoryemoji, selectedColor: .orange)
                         }
                     })
         }
     }
 }
 
-#Preview {
-    CategoriesEditView()
-}
+//#Preview {
+//    CategoriesEditView()
+//}

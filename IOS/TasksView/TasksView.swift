@@ -29,10 +29,11 @@ struct TasksView: View {
                                 let tasks: [TaskModel] = categoryelement.tasks ?? []
                                 if (tasks.count > 0) {
                                     Section (content: {
-                                        ForEach(tasks, id: \.self, content: { (taskelement: TaskModel) in
-                                            Button("\(taskelement.category?.emoji ?? "")  \(taskelement.name ?? "No name found!")", action: {
-                                                print(taskelement.name ?? "No name found!")
-                                            })
+                                        ForEach(tasks, id: \.self, content: { (taskelementin: TaskModel) in
+                //                                                           NavigationLink(destination: TasksEditView(taskelement: taskelement), label: Text("\(taskelement.category?.emoji ?? "")  \(taskelement.name ?? "No name found!")"))
+                                                                           NavigationLink(destination: TasksEditView(taskelement: taskelementin), label: {
+                    Text("\(taskelementin.category?.emoji ?? "")  \(taskelementin.name ?? "No name found!")")
+                })
                                         })
                                             .listRowBackground(categoryelement.colour?.toSwiftColor())
                                             .foregroundColor(categoryelement.colour?.toSwiftColor().adaptedTextColor())

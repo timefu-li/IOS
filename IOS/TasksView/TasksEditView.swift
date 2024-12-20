@@ -16,19 +16,20 @@ struct TasksEditView: View {
     @State var categoryselection: CategoryModel?
     @State var playNotificationSounds: Bool
 
-    @Binding var taskelement: TaskModel
+    var taskelement: TaskModel
 
-    init(taskelement: Binding<TaskModel>) {
+    init(taskelement: TaskModel) {
         categories = []
         errorstate = APIHandler.APIHandlerError.OK
 
-        taskname = ""
         playNotificationSounds = false
 
-        self._taskelement = taskelement
+        self.taskelement = taskelement
+        taskname = taskelement.name ?? "Unknown name"
     }
 
     var body: some View {
+
         VStack {
 
             Form {
@@ -37,15 +38,15 @@ struct TasksEditView: View {
                         Text("Task name")
                     }
                 }
-                Section(header: Text("Attributes")) {
-                    Picker("Category", selection: $categoryselection) {
-                        ForEach(Array(categories.enumerated()), id: \.offset, content: { (index: Int, categoryelement: CategoryModel) in
-                            Text("\(categoryelement.emoji ?? "")  \(categoryelement.name ?? "Category name not found!")").tag(categoryelement)
-                        })
-                    }
-                        //.listRowBackground(categoryselection?.colour?.toSwiftColor())
-                        //.foregroundColor(categoryselection?.colour?.toSwiftColor().adaptedTextColor())
-                }
+                //Section(header: Text("Attributes")) {
+                //    Picker("Category", selection: $categoryselection) {
+                //        ForEach(Array(categories.enumerated()), id: \.offset, content: { (index: Int, categoryelement: CategoryModel) in
+                //            Text("\(categoryelement.emoji ?? "")  \(categoryelement.name ?? "Category name not found!")").tag(categoryelement)
+                //        })
+                //    }
+                //        //.listRowBackground(categoryselection?.colour?.toSwiftColor())
+                //        //.foregroundColor(categoryselection?.colour?.toSwiftColor().adaptedTextColor())
+                //}
                 //Section(header: Text("Notifications")) {
                 //    Picker("Notify Me About", selection: $notifyMeAbout) {
                 //        Text("Direct Messages").tag(1)
@@ -62,11 +63,16 @@ struct TasksEditView: View {
                 //        Text("Small").tag(3)
                 //    }
                 //}
-                Button("New Task", action: {
+                Button("Save Task", action: {
                     Task {
-                        let newtaskmodel = TaskModel(name: taskname, category: categoryselection)
+                            let newtaskmodel = TaskModel(name: taskname, id: taskelement.id ?? UUID())
 
-                        let result = try await APIHandler.newTask(task: newtaskmodel)
+                        let result = try await APIHandler.updateTask(task: newtaskmodel)
+                    }
+                })
+                Button("Delete Task", action: {
+                    Task {
+                            let result = try await APIHandler.deleteTask(TaskID: taskelement.id ?? UUID())
                     }
                 })
             }
